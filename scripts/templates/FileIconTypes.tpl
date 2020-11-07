@@ -1,0 +1,1 @@
+export default function(props: JSX.IntrinsicElements["svg"]): JSX.Element;

@@ -13,6 +13,11 @@ const fileIconTemplate = _.template(
     encoding: "utf-8"
   })
 );
+const fileIconTypesTemplate = _.template(
+  fs.readFileSync(path.join(__dirname, "templates/FileIconTypes.tpl"), {
+    encoding: "utf-8"
+  })
+);
 
 const galleryTemplate = _.template(
   fs.readFileSync(path.join(__dirname, "templates/Gallery.tpl"), {
@@ -37,9 +42,17 @@ fs.readdirSync(fileIconSrcDir, { encoding: "utf-8" }).forEach(item => {
     componentName,
     code
   });
+  const finalTypesContent = fileIconTypesTemplate({});
   fs.writeFileSync(
-    path.join(fileIconDestDir, `${componentName}.jsx`),
+    path.join(fileIconDestDir, `${componentName}.js`),
     finalContent,
+    {
+      encoding: "utf-8"
+    }
+  );
+  fs.writeFileSync(
+    path.join(fileIconDestDir, `${componentName}.d.ts`),
+    finalTypesContent,
     {
       encoding: "utf-8"
     }
