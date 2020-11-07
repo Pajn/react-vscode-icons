@@ -8,6 +8,11 @@ const transform = require("./transform");
 const fileIconSrcDir = path.join(__dirname, "../vscode-icons");
 const fileIconDestDir = path.join(__dirname, "../es");
 
+const indexTemplate = _.template(
+  fs.readFileSync(path.join(__dirname, "templates/Index.tpl"), {
+    encoding: "utf-8"
+  })
+);
 const fileIconTemplate = _.template(
   fs.readFileSync(path.join(__dirname, "templates/FileIcon.tpl"), {
     encoding: "utf-8"
@@ -58,6 +63,23 @@ fs.readdirSync(fileIconSrcDir, { encoding: "utf-8" }).forEach(item => {
     }
   );
 });
+const indexContent = indexTemplate({
+  componentNames: components
+});
+fs.writeFileSync(
+  path.join(fileIconDestDir, `index.js`),
+  indexContent,
+  {
+    encoding: "utf-8"
+  }
+);
+fs.writeFileSync(
+  path.join(fileIconDestDir, `index.d.ts`),
+  indexContent,
+  {
+    encoding: "utf-8"
+  }
+);
 
 fs.writeFileSync(
   path.join(fileIconDestDir, `gallery.js`),
