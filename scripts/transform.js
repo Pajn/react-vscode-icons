@@ -2,6 +2,7 @@ const babel = require("@babel/core");
 const { parse } = require("@babel/parser");
 const traverse = require("@babel/traverse").default;
 const generate = require("@babel/generator").default;
+const _ = require("lodash");
 
 function transform(svgString) {
   const str = 'const SVG = ' + svgString;
@@ -62,6 +63,8 @@ function setNodeAttr(attrs) {
     const attr = attrs[i];
     if (attr.name.name === "fill") {
       attr.value.value = "currentColor";
+    } else if (attr.name.name.includes('-')) {
+      attr.name.name = _.camelCase(attr.name.name)
     }
   }
 }
